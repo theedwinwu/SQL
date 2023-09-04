@@ -1,0 +1,44 @@
+-- #In this SQL project, I'm queried a database with multiple tables in it to quantify statistics about customer and order data. 
+
+#1 How many orders were placed in January? 
+select count(orderid)
+from BIT_DB.JanSales
+where length(orderid) = 6 
+and orderid != 'Order ID'
+
+#2 How many of those orders were for an iPhone? 
+select count(orderid)
+from BIT_DB.JanSales
+where Product = 'iPhone'
+and length(orderid) = 6 and orderid != 'Order ID'
+
+#3 Select the customer account numbers for all the orders that were placed in February. 
+select distinct acctnum
+from BIT_DB.customers cust
+join BIT_DB.FebSales Feb
+on cust.order_id=FEB.orderid
+where length(orderid) = 6 
+and orderid != 'Order ID'
+
+#4 Which product was the cheapest one sold in January, and what was the price?
+select distinct product, price 
+from BIT_DB.JanSales 
+order by price ask LIMIT 1
+
+#5 What is the total revenue for each product sold in January?
+select sum(quantity)*price revenue , product
+from BIT_DB.JanSales
+group by product
+
+#6 Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+select sum(Quantity), product, sum(quantity)*price revenue
+from BIT_DB.FebSales 
+where location = '548 Lincoln St, Seattle, WA 98101'
+group by product
+
+#7 How many customers ordered more than 2 products at a time, and what was the average amount spent for those customers? 
+select count(distinct cust.acctnum), avg(quantity*price)
+from BIT_DB.FebSales f
+left join BIT_DB.customers c
+on f.orderid=c.order_id
+where Feb.Quantity>2 and length(orderid) = 6 and orderid != 'Order ID'

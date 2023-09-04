@@ -1,4 +1,4 @@
--- #In this SQL project, I'm queried a database with multiple tables in it to quantify statistics about customer and order data. 
+-- #In this SQL project, I queried a database with multiple tables in it to quantify statistics about customer and order data. 
 
 #1 How many orders were placed in January? 
 select count(orderid)
